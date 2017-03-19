@@ -18,3 +18,8 @@ body {
 .App-intro {
   font-size: large;
 }
+
+.leaflet-container {
+  height: 100vh;
+  width: 100vw;
+}
