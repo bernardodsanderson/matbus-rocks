@@ -28,18 +28,23 @@ class App extends React.Component {
 
   constructor() {
     super();
+    this.callAPI = this.callAPI.bind(this);
     this.state = {
       route: '01',
+      zoom: 16,
+      location: [46.8695, -96.7901],
       open: false
     }
   }
 
   callAPI() {
+    let _this = this;
     axios.get('http://165.234.255.87:8080/feed/vehicle/byRoutes/14', {
       'Content-Type': 'application/json',
     })
     .then(function (response) {
-      console.log(response.data);
+      console.log(response.data.data[0].latitude);
+      _this.setState({open: true, zoom: 16, location: [response.data.data[0].latitude, response.data.data[0].longitude]});
     })
     .catch(function (error) {
       console.log(error);
@@ -49,7 +54,7 @@ class App extends React.Component {
   handleToggle = () => this.setState({open: !this.state.open});
 
   render() {
-    const position = [46.8695, -96.7901];
+
     this.callAPI();
 
     const ButtonTest = <RaisedButton label="Toggle Drawer"  onTouchTap={this.handleToggle} />;
@@ -62,14 +67,14 @@ class App extends React.Component {
           <AppBar title="Matbus Rocks!" iconElementLeft={ButtonTest} />
         </MuiThemeProvider>
 
-        <Map center={position} zoom={13}>
+        <Map center={this.state.location} zoom={this.state.zoom}>
           <TileLayer
             url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={position}>
+          <Marker position={this.state.location}>
             <Popup>
-              <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+              <span>A pretty CSS3 popup.<br/>Easily customizable.{this.state.open ? 'true':'false'}</span>
             </Popup>
           </Marker>
         </Map>
