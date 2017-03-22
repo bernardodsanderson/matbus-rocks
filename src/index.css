@@ -8,6 +8,16 @@ body {
   text-align: center;
 }
 
+.App i.material-icons {
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 7%;
+}
+
+.routes {
+  margin-top: -2px;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;
