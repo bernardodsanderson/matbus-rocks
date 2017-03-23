@@ -26,6 +26,7 @@ class App extends React.Component {
     this.closeSnackbar = this.closeSnackbar.bind(this);
     this.state = {
       route: '',
+      bus: '',
       zoom: 12,
       location: [46.8695, -96.7901],
       open: false,
@@ -35,19 +36,24 @@ class App extends React.Component {
     }
   }
 
-  callAPI(route_number) {
+  callAPI(route_number, bus_number) {
+    // console.log(route_number, bus_number);
     let _this = this;
     axios.get('http://165.234.255.87:8080/feed/vehicle/byRoutes/'+route_number, {
       'Content-Type': 'application/json',
     })
     .then(function (response) {
-      // console.log(response.data.data[0].latitude);
+      let bus = bus_number;
+      // console.log(bus_number);
       if (response.data.data.length === 0) {
         console.log('not working!');
         _this.openSnackbar();
       }
-      _this.setState({zoom: 16, location: [response.data.data[0].latitude, response.data.data[0].longitude], once: false});
-      _this.callAPI(route_number);
+      if (response.data.data[bus_number].latitude !== undefined && response.data.data[bus_number].longitude !== undefined) {
+        _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: false, route: route_number, bus: bus_number});
+      }
+      console.log(bus);
+      _this.callAPI(_this.state.route, _this.state.bus);
     })
     .catch(function (error) {
       console.log(error);
@@ -58,9 +64,9 @@ class App extends React.Component {
     this.setState({open: !this.state.open});
   }
 
-  handleClose(event) { 
-    this.setState({open: false, route: event, once: true});
-    this.callAPI(event);
+  handleClose(event, bus_number) { 
+    this.setState({open: false, route: event, once: true, bus: bus_number});
+    this.callAPI(this.state.route, this.state.bus);
   }
 
   mapClose() {
@@ -81,39 +87,58 @@ class App extends React.Component {
 
     const bus = <i className="material-icons">directions_bus</i>;
 
+    let route = '';
+    
+    if (this.state.route) {
+      route = <span className="route-indicator">Route: {this.state.route} | Bus: {this.state.bus + 1}</span>;
+    } else {
+      route = <span></span>;
+    }
+
     return (
       <div className="App">
 
-        <AppBar title={bus} iconElementLeft='' iconElementRight={ButtonTest} />
+        <AppBar title={bus} iconElementLeft={route} iconElementRight={ButtonTest} />
 
         <Drawer open={this.state.open}>
-          <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM")} >LinkFM</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("01")} >Route 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("02")} >Route 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("03")} >Route 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("04")} >Route 4</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("05")} >Route 5</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("06")} >Route 6</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("07")} >Route 7</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("08")} >Route 8</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("09")} >Route 9</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("10")} >Route 10</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("11")} >Route 11</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("12")} >Route 12</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13")} >Route 13</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13U")} >Route 13U</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14")} >Route 14</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15")} >Route 15</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("16")} >Route 16</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("17")} >Route 17</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("18")} >Route 18</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("23")} >Route 23</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("31")} >Route 31</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("32E")} >Route 32E</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("32W")} >Route 32W</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33")} >Route 33</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("34")} >Route 34</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("35")} >Route 35</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM", 0)} >LinkFM</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("01", 0)} >Route 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("02", 0)} >Route 2 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("02", 1)} >Route 2 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("03", 0)} >Route 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("04", 0)} >Route 4 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("04", 1)} >Route 4 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("05", 0)} >Route 5</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("06", 0)} >Route 6</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("07", 0)} >Route 7</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("08", 0)} >Route 8</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("09", 0)} >Route 9</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("10", 0)} >Route 10</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("11", 0)} >Route 11</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("12", 0)} >Route 12</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13", 0)} >Route 13 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13", 1)} >Route 13 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13U", 0)} >Route 13U</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 0)} >Route 14 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 1)} >Route 14 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 2)} >Route 14 | Bus 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 0)} >Route 15 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 1)} >Route 15 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 2)} >Route 15 | Bus 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 3)} >Route 15 | Bus 4</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("16", 0)} >Route 16</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("17", 0)} >Route 17</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("18", 0)} >Route 18 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("18", 1)} >Route 18 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("23", 0)} >Route 23</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("31", 0)} >Route 31</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("32E", 0)} >Route 32E</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("32W", 0)} >Route 32W</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 0)} >Route 33 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 1)} >Route 33 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 2)} >Route 33 | Bus 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("34", 0)} >Route 34</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("35", 0)} >Route 35</MenuItem>
         </Drawer>
 
         <Map center={this.state.location} zoom={this.state.zoom} onClick={this.mapClose}>

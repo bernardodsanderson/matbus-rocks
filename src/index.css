@@ -11,7 +11,17 @@ body {
 .App i.material-icons {
   font-size: 30px;
   margin-top: 10px;
-  margin-left: 7%;
+  /*margin-left: 7%;*/
+  position: absolute;
+  left: 48%;
+}
+
+.route-indicator {
+  position: absolute;
+  top: 17px;
+  left: 18px;
+  color: #fff;
+  font-size: 12px;
 }
 
 .routes {
