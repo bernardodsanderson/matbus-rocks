@@ -6,8 +6,9 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 
+import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline07, polyline08, polyline09, polyline10, polyline11, polyline12, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
 import './index.css';
 import './logo.svg';
 
@@ -32,7 +33,8 @@ class App extends React.Component {
       open: false,
       value: 1,
       once: true,
-      snackbar: false
+      snackbar: false,
+      polyline: []
     }
   }
 
@@ -44,16 +46,14 @@ class App extends React.Component {
     })
     .then(function (response) {
       // console.log(response);
-      if (response.data.data.length < 0) {
+      if (response.data.data.length < 1) {
         console.log('not working!');
         _this.openSnackbar();
         return 0;
       } else {
-        if (response.data.data[bus_number].latitude !== undefined && response.data.data[bus_number].longitude !== undefined) {
-          // console.log(response.data.data[bus_number].latitude, response.data.data[bus_number].longitude);
-          _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: false});
-          _this.callAPI(_this.state.route, _this.state.bus);
-        }
+        // console.log(response.data.data[bus_number].latitude, response.data.data[bus_number].longitude);
+        _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: false});
+        _this.callAPI(_this.state.route, _this.state.bus);
       }
     })
     .catch(function (error) {
@@ -65,9 +65,9 @@ class App extends React.Component {
     this.setState({open: !this.state.open});
   }
 
-  handleClose(event, bus_number) { 
-    this.setState({open: false, route: event, once: true, bus: bus_number});
-    this.callAPI(this.state.route, this.state.bus);
+  handleClose(event, bus_number, polyline) { 
+    this.setState({open: false, route: event, once: true, bus: bus_number, polyline: polyline});
+    this.callAPI(event, bus_number);
   }
 
   mapClose() {
@@ -91,10 +91,16 @@ class App extends React.Component {
     let route = '';
     
     if (this.state.route) {
-      route = <span className="route-indicator">Route: {this.state.route} | Bus: {this.state.bus + 1}</span>;
+      if (this.state.route === '0%20-%20LinkFM') {
+        route = <span className="route-indicator">Route: LinkFM | Bus: {this.state.bus + 1}</span>;
+      } else {
+        route = <span className="route-indicator">Route: {this.state.route} | Bus: {this.state.bus + 1}</span>;
+      }
     } else {
       route = <span></span>;
     }
+
+    // console.log(this.state.polyline);
 
     return (
       <div className="App">
@@ -102,44 +108,44 @@ class App extends React.Component {
         <AppBar title={bus} iconElementLeft={route} iconElementRight={ButtonTest} />
 
         <Drawer open={this.state.open}>
-          <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM", 0)} >LinkFM</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("01", 0)} >Route 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("02", 0)} >Route 2 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("02", 1)} >Route 2 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("03", 0)} >Route 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("04", 0)} >Route 4 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("04", 1)} >Route 4 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("05", 0)} >Route 5</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("06", 0)} >Route 6</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("07", 0)} >Route 7</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("08", 0)} >Route 8</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("09", 0)} >Route 9</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("10", 0)} >Route 10</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("11", 0)} >Route 11</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("12", 0)} >Route 12</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13", 0)} >Route 13 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13", 1)} >Route 13 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13U", 0)} >Route 13U</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14", 0)} >Route 14 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14", 1)} >Route 14 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14", 2)} >Route 14 | Bus 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 0)} >Route 15 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 1)} >Route 15 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 2)} >Route 15 | Bus 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 3)} >Route 15 | Bus 4</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("16", 0)} >Route 16</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("17", 0)} >Route 17</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("18", 0)} >Route 18 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("18", 1)} >Route 18 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("23", 0)} >Route 23</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("31", 0)} >Route 31</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("32E", 0)} >Route 32E</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("32W", 0)} >Route 32W</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33", 0)} >Route 33 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33", 1)} >Route 33 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33", 2)} >Route 33 | Bus 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("34", 0)} >Route 34</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("35", 0)} >Route 35</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM", 0, polyline00)} >LinkFM</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("01", 0, polyline01)} >Route 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("02", 0, polyline02)} >Route 2 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("02", 1, polyline02)} >Route 2 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("03", 0, polyline03)} >Route 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("04", 0, polyline04)} >Route 4 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("04", 1, polyline04)} >Route 4 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("05", 0, polyline05)} >Route 5</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("06", 0, polyline06)} >Route 6</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("07", 0, polyline07)} >Route 7</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("08", 0, polyline08)} >Route 8</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("09", 0, polyline09)} >Route 9</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("10", 0, polyline10)} >Route 10</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("11", 0, polyline11)} >Route 11</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("12", 0, polyline12)} >Route 12</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13", 0, polyline13)} >Route 13 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13", 1, polyline13)} >Route 13 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13U", 0, polyline13U)} >Route 13U</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 0, polyline14)} >Route 14 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 1, polyline14)} >Route 14 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 2, polyline14)} >Route 14 | Bus 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 0, polyline15)} >Route 15 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 1, polyline15)} >Route 15 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 2, polyline15)} >Route 15 | Bus 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 3, polyline15)} >Route 15 | Bus 4</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("16", 0, polyline16)} >Route 16</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("17", 0, polyline17)} >Route 17</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("18", 0, polyline18)} >Route 18 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("18", 1, polyline18)} >Route 18 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("23", 0, polyline23)} >Route 23</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("31", 0, polyline31)} >Route 31</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("32E", 0, polyline32E)} >Route 32E</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("32W", 0, polyline32W)} >Route 32W</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 0, polyline33)} >Route 33 | Bus 1</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 1, polyline33)} >Route 33 | Bus 2</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 2, polyline33)} >Route 33 | Bus 3</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("34", 0, polyline34)} >Route 34</MenuItem>
+          <MenuItem onClick={()=>this.handleClose("35", 0, polyline35)} >Route 35</MenuItem>
         </Drawer>
 
         <Map center={this.state.location} zoom={this.state.zoom} onClick={this.mapClose}>
@@ -152,6 +158,7 @@ class App extends React.Component {
               <span>This is route: {this.state.route}</span>
             </Popup>
           </Marker>
+          <Polyline color='#607d8b' positions={this.state.polyline} />
         </Map>
 
         <Snackbar
