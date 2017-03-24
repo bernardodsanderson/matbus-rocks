@@ -28,6 +28,14 @@ body {
   margin-top: -2px;
 }
 
+.snackbar > div {
+  background-color: #F44336 !important;
+}
+
+.snackbar > div > div {
+  font-weight: 700;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;
@@ -40,6 +48,6 @@ body {
 }
 
 .leaflet-container {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 50px);
   width: 100%;
 }

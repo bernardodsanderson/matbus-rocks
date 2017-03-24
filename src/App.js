@@ -43,17 +43,18 @@ class App extends React.Component {
       'Content-Type': 'application/json',
     })
     .then(function (response) {
-      let bus = bus_number;
-      // console.log(bus_number);
-      if (response.data.data.length === 0) {
+      // console.log(response);
+      if (response.data.data.length < 0) {
         console.log('not working!');
         _this.openSnackbar();
+        return 0;
+      } else {
+        if (response.data.data[bus_number].latitude !== undefined && response.data.data[bus_number].longitude !== undefined) {
+          // console.log(response.data.data[bus_number].latitude, response.data.data[bus_number].longitude);
+          _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: false});
+          _this.callAPI(_this.state.route, _this.state.bus);
+        }
       }
-      if (response.data.data[bus_number].latitude !== undefined && response.data.data[bus_number].longitude !== undefined) {
-        _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: false, route: route_number, bus: bus_number});
-      }
-      console.log(bus);
-      _this.callAPI(_this.state.route, _this.state.bus);
     })
     .catch(function (error) {
       console.log(error);
@@ -158,6 +159,7 @@ class App extends React.Component {
           message='No bus on this route is running right now!'
           autoHideDuration={4000}
           onRequestClose={this.closeSnackbar}
+          className="snackbar"
         />
 
       </div>
