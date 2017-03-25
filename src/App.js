@@ -8,12 +8,13 @@ import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 
-import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline07, polyline08, polyline09, polyline10, polyline11, polyline12, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
+import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline08, polyline09, polyline10, polyline11, polyline12, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
 import './index.css';
 import './logo.svg';
 
 // http://165.234.255.87:8080/feed/vehicle/byRoutes/14
 // http://165.234.255.87:8080/fixedroute/
+// http://www.openrouteservice.org
 
 class App extends React.Component {
 
@@ -32,7 +33,7 @@ class App extends React.Component {
       location: [46.8695, -96.7901],
       open: false,
       value: 1,
-      once: true,
+      once: false,
       snackbar: false,
       polyline: []
     }
@@ -47,12 +48,13 @@ class App extends React.Component {
     .then(function (response) {
       // console.log(response);
       if (response.data.data.length < 1) {
+        _this.setState({zoom: 12, location: [46.8695, -96.7901], once: false, route: '', bus: ''});
         // console.log('not working!');
         _this.openSnackbar();
         return 0;
       } else {
         // console.log(response.data.data[bus_number].latitude, response.data.data[bus_number].longitude);
-        _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: false});
+        _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: true});
         _this.callAPI(_this.state.route, _this.state.bus);
       }
     })
@@ -66,7 +68,7 @@ class App extends React.Component {
   }
 
   handleClose(event, bus_number, polyline) { 
-    this.setState({open: false, route: event, once: true, bus: bus_number, polyline: polyline});
+    this.setState({open: false, route: event, once: false, bus: bus_number, polyline: polyline});
     this.callAPI(event, bus_number);
   }
 
@@ -87,6 +89,14 @@ class App extends React.Component {
     const ButtonTest = <FlatButton className="routes" onClick={this.handleToggle} label="Routes" />;
 
     const bus = <i className="material-icons">directions_bus</i>;
+
+    let marker = '';
+    let polyline = '';
+
+    if (this.state.route && this.state.once) {
+      marker = <Marker position={this.state.location}><Popup><span>Route: {this.state.route}</span></Popup></Marker>;
+      polyline = <Polyline color='#607d8b' positions={this.state.polyline} />;
+    }
 
     let route = '';
     
@@ -117,7 +127,6 @@ class App extends React.Component {
           <MenuItem onClick={()=>this.handleClose("04", 1, polyline04)} >Route 4 | Bus 2</MenuItem>
           <MenuItem onClick={()=>this.handleClose("05", 0, polyline05)} >Route 5</MenuItem>
           <MenuItem onClick={()=>this.handleClose("06", 0, polyline06)} >Route 6</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("07", 0, polyline07)} >Route 7</MenuItem>
           <MenuItem onClick={()=>this.handleClose("08", 0, polyline08)} >Route 8</MenuItem>
           <MenuItem onClick={()=>this.handleClose("09", 0, polyline09)} >Route 9</MenuItem>
           <MenuItem onClick={()=>this.handleClose("10", 0, polyline10)} >Route 10</MenuItem>
@@ -153,12 +162,8 @@ class App extends React.Component {
             url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={this.state.location}>
-            <Popup>
-              <span>This is route: {this.state.route}</span>
-            </Popup>
-          </Marker>
-          <Polyline color='#607d8b' positions={this.state.polyline} />
+          {marker}
+          {polyline}
         </Map>
 
         <Snackbar
