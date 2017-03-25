@@ -47,7 +47,7 @@ class App extends React.Component {
     .then(function (response) {
       // console.log(response);
       if (response.data.data.length < 1) {
-        console.log('not working!');
+        // console.log('not working!');
         _this.openSnackbar();
         return 0;
       } else {
