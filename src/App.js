@@ -8,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 
-import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline08, polyline09, polyline10, polyline11, polyline12, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
+import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline08, polyline09, polyline11, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
 import './index.css';
 import './logo.svg';
 
@@ -93,7 +93,9 @@ class App extends React.Component {
     let marker = '';
     let polyline = '';
 
-    if (this.state.route && this.state.once) {
+    // this.state.route && this.state.once
+
+    if (true) {
       marker = <Marker position={this.state.location}><Popup><span>Route: {this.state.route}</span></Popup></Marker>;
       polyline = <Polyline color='#607d8b' positions={this.state.polyline} />;
     }
@@ -129,9 +131,7 @@ class App extends React.Component {
           <MenuItem onClick={()=>this.handleClose("06", 0, polyline06)} >Route 6</MenuItem>
           <MenuItem onClick={()=>this.handleClose("08", 0, polyline08)} >Route 8</MenuItem>
           <MenuItem onClick={()=>this.handleClose("09", 0, polyline09)} >Route 9</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("10", 0, polyline10)} >Route 10</MenuItem>
           <MenuItem onClick={()=>this.handleClose("11", 0, polyline11)} >Route 11</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("12", 0, polyline12)} >Route 12</MenuItem>
           <MenuItem onClick={()=>this.handleClose("13", 0, polyline13)} >Route 13 | Bus 1</MenuItem>
           <MenuItem onClick={()=>this.handleClose("13", 1, polyline13)} >Route 13 | Bus 2</MenuItem>
           <MenuItem onClick={()=>this.handleClose("13U", 0, polyline13U)} >Route 13U</MenuItem>
