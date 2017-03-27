@@ -17,6 +17,8 @@ import './logo.svg';
 // http://www.openrouteservice.org
 // http://map.project-osrm.org/?z=17&center=46.874476%2C-96.769863&loc=46.873879%2C-96.768329&loc=46.872800%2C-96.773994&hl=en&alt=0
 // https://github.com/Project-OSRM/osrm-backend/wiki/Server-API---v4,-old
+// http://wiki.openstreetmap.org/wiki/Routing/online_routers
+// https://maps.skobbler.com
 
 class App extends React.Component {
 
