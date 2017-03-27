@@ -7,6 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
+import { divIcon } from 'leaflet';
 
 import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline08, polyline09, polyline11, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
 import './index.css';
@@ -97,10 +98,14 @@ class App extends React.Component {
     let marker = '';
     let polyline = '';
 
-    // this.state.route && this.state.once
+    const myIcon = divIcon({
+      className: 'material-icons',
+      iconSize: [24, 24],
+      html: `<i class="material-icons floating-icon" style="color: #f44336">directions_bus</i>`,
+    });
 
-    if (true) {
-      marker = <Marker position={this.state.location}><Popup><span>Route: {this.state.route}</span></Popup></Marker>;
+    if (this.state.route && this.state.once) {
+      marker = <Marker draggable={false} position={this.state.location} icon={myIcon}><Popup><span>Route: {this.state.route}</span></Popup></Marker>;
       polyline = <Polyline color='#607d8b' positions={this.state.polyline} />;
     }
 
@@ -121,7 +126,7 @@ class App extends React.Component {
     return (
       <div className="App">
 
-        <AppBar title={bus} iconElementLeft={route} iconElementRight={ButtonTest} />
+        <AppBar className="appBar" title={bus} iconElementLeft={route} iconElementRight={ButtonTest} />
 
         <Drawer open={this.state.open}>
           <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM", 0, polyline00)} >LinkFM</MenuItem>
