@@ -11,7 +11,6 @@ import { divIcon } from 'leaflet';
 
 import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline08, polyline09, polyline11, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
 import './index.css';
-import './logo.svg';
 
 // http://165.234.255.87:8080/feed/vehicle/byRoutes/14
 // http://165.234.255.87:8080/fixedroute/
