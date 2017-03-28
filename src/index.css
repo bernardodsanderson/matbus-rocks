@@ -13,7 +13,7 @@ body {
   margin-top: 10px;
   /*margin-left: 7%;*/
   position: absolute;
-  left: 48%;
+  left: 47%;
 }
 
 .route-indicator {
@@ -22,6 +22,27 @@ body {
   left: 18px;
   color: #fff;
   font-size: 12px;
+}
+
+hr {
+  opacity: 0.5;
+}
+
+.drawer small {
+  color: #607d8b;
+  margin-left: 10px;
+}
+
+.drawer span.bus {
+  background-color: #607d8b;
+  padding: 5px;
+  color: #fff;
+  border-radius: 2px;
+  margin-left: 10px;
+}
+
+.drawer {
+  text-align: left;
 }
 
 .routes {

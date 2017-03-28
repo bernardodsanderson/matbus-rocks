@@ -127,42 +127,55 @@ class App extends React.Component {
 
         <AppBar className="appBar" title={bus} iconElementLeft={route} iconElementRight={ButtonTest} />
 
-        <Drawer open={this.state.open}>
-          <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM", 0, polyline00)} >LinkFM</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("01", 0, polyline01)} >Route 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("02", 0, polyline02)} >Route 2 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("02", 1, polyline02)} >Route 2 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("03", 0, polyline03)} >Route 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("04", 0, polyline04)} >Route 4 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("04", 1, polyline04)} >Route 4 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("05", 0, polyline05)} >Route 5</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("06", 0, polyline06)} >Route 6</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("08", 0, polyline08)} >Route 8</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("09", 0, polyline09)} >Route 9</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("11", 0, polyline11)} >Route 11</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13", 0, polyline13)} >Route 13 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13", 1, polyline13)} >Route 13 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("13U", 0, polyline13U)} >Route 13U</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14", 0, polyline14)} >Route 14 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14", 1, polyline14)} >Route 14 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("14", 2, polyline14)} >Route 14 | Bus 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 0, polyline15)} >Route 15 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 1, polyline15)} >Route 15 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 2, polyline15)} >Route 15 | Bus 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("15", 3, polyline15)} >Route 15 | Bus 4</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("16", 0, polyline16)} >Route 16</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("17", 0, polyline17)} >Route 17</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("18", 0, polyline18)} >Route 18 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("18", 1, polyline18)} >Route 18 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("23", 0, polyline23)} >Route 23</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("31", 0, polyline31)} >Route 31</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("32E", 0, polyline32E)} >Route 32E</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("32W", 0, polyline32W)} >Route 32W</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33", 0, polyline33)} >Route 33 | Bus 1</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33", 1, polyline33)} >Route 33 | Bus 2</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("33", 2, polyline33)} >Route 33 | Bus 3</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("34", 0, polyline34)} >Route 34</MenuItem>
-          <MenuItem onClick={()=>this.handleClose("35", 0, polyline35)} >Route 35</MenuItem>
+        <Drawer open={this.state.open} className="drawer">
+          <MenuItem onClick={()=>this.handleClose("0%20-%20LinkFM", 0, polyline00)} ><span className="bus">LinkFM</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("01", 0, polyline01)} ><span className="bus">Route 1</span></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("02", 0, polyline02)} ><span className="bus">Route 2</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("02", 1, polyline02)} ><span className="bus">Route 2</span><small>Bus 2</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("03", 0, polyline03)} ><span className="bus">Route 3</span></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("04", 0, polyline04)} ><span className="bus">Route 4</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("04", 1, polyline04)} ><span className="bus">Route 4</span><small>Bus 2</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("05", 0, polyline05)} ><span className="bus">Route 5</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("06", 0, polyline06)} ><span className="bus">Route 6</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("08", 0, polyline08)} ><span className="bus">Route 8</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("09", 0, polyline09)} ><span className="bus">Route 9</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("11", 0, polyline11)} ><span className="bus">Route 11</span></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("13", 0, polyline13)} ><span className="bus">Route 13</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("13", 1, polyline13)} ><span className="bus">Route 13</span><small>Bus 2</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("13U", 0, polyline13U)} ><span className="bus">Route 13U</span></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("14", 0, polyline14)} ><span className="bus">Route 14</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 1, polyline14)} ><span className="bus">Route 14</span><small>Bus 2</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("14", 2, polyline14)} ><span className="bus">Route 14</span><small>Bus 3</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("15", 0, polyline15)} ><span className="bus">Route 15</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 1, polyline15)} ><span className="bus">Route 15</span><small>Bus 2</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 2, polyline15)} ><span className="bus">Route 15</span><small>Bus 3</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("15", 3, polyline15)} ><span className="bus">Route 15</span><small>Bus 4</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("16", 0, polyline16)} ><span className="bus">Route 16</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("17", 0, polyline17)} ><span className="bus">Route 17</span></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("18", 0, polyline18)} ><span className="bus">Route 18</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("18", 1, polyline18)} ><span className="bus">Route 18</span><small>Bus 2</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("23", 0, polyline23)} ><span className="bus">Route 23</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("31", 0, polyline31)} ><span className="bus">Route 31</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("32E", 0, polyline32E)} ><span className="bus">Route 32E</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("32W", 0, polyline32W)} ><span className="bus">Route 32W</span></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("33", 0, polyline33)} ><span className="bus">Route 33</span><small>Bus 1</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 1, polyline33)} ><span className="bus">Route 33</span><small>Bus 2</small></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("33", 2, polyline33)} ><span className="bus">Route 33</span><small>Bus 3</small></MenuItem>
+          <hr/>
+          <MenuItem onClick={()=>this.handleClose("34", 0, polyline34)} ><span className="bus">Route 34</span></MenuItem>
+          <MenuItem onClick={()=>this.handleClose("35", 0, polyline35)} ><span className="bus">Route 35</span></MenuItem>
         </Drawer>
 
         <Map center={this.state.location} zoom={this.state.zoom} onClick={this.mapClose}>
