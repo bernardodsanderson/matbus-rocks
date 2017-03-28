@@ -82,5 +82,13 @@ hr {
   width: 15px;
   height: 12px;
   background-color: #fff;
+}
 
+@media screen and (max-width: 540px) {
+  .leaflet-container {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    height: inherit;
+  }
 }
