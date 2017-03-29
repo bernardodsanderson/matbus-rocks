@@ -27,7 +27,8 @@ class App extends React.Component {
     this.callAPI = this.callAPI.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.mapClose = this.mapClose.bind(this);
+    this.mapClick = this.mapClick.bind(this);
+    this.mapMove = this.mapMove.bind(this);
     this.openSnackbar = this.openSnackbar.bind(this);
     this.closeSnackbar = this.closeSnackbar.bind(this);
     this.state = {
@@ -39,6 +40,7 @@ class App extends React.Component {
       value: 1,
       once: false,
       snackbar: false,
+      stopCenter: 0,
       polyline: []
     }
   }
@@ -72,12 +74,16 @@ class App extends React.Component {
   }
 
   handleClose(event, bus_number, polyline) { 
-    this.setState({open: false, route: event, once: false, bus: bus_number, polyline: polyline});
+    this.setState({open: false, route: event, once: false, bus: bus_number, polyline: polyline, stopCenter: 0});
     this.callAPI(event, bus_number);
   }
 
-  mapClose() {
-    this.setState({open: false});
+  mapClick() {
+    this.setState({open: false, stopCenter: this.state.stopCenter + 1});
+  }
+
+  mapMove() {
+    this.setState({open: false, stopCenter: this.state.stopCenter + 1});
   }
 
   openSnackbar() {
@@ -94,14 +100,14 @@ class App extends React.Component {
 
     const bus = <i className="material-icons">directions_bus</i>;
 
-    let marker = '';
-    let polyline = '';
-
     const myIcon = divIcon({
       className: 'material-icons',
       iconSize: [24, 24],
       html: `<i class="material-icons floating-icon" style="color: #f44336">directions_bus</i>`,
     });
+
+    let marker = '';
+    let polyline = '';
 
     if (this.state.route && this.state.once) {
       marker = <Marker draggable={false} position={this.state.location} icon={myIcon}><Popup><span>Route: {this.state.route}</span></Popup></Marker>;
@@ -118,6 +124,28 @@ class App extends React.Component {
       }
     } else {
       route = <span></span>;
+    }
+
+    let map = '';
+
+    if (this.state.stopCenter > 2) {
+      map = <Map onClick={this.mapClick} onMoveend={this.mapMove}>
+          <TileLayer
+            url='http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {marker}
+          {polyline}
+        </Map>
+    } else {
+      map = <Map center={this.state.location} zoom={this.state.zoom} onClick={this.mapClick} onMoveend={this.mapMove}>
+          <TileLayer
+            url='http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {marker}
+          {polyline}
+        </Map>
     }
 
     // console.log(this.state.polyline);
@@ -178,14 +206,7 @@ class App extends React.Component {
           <MenuItem onClick={()=>this.handleClose("35", 0, polyline35)} ><span className="bus">Route 35</span></MenuItem>
         </Drawer>
 
-        <Map center={this.state.location} zoom={this.state.zoom} onClick={this.mapClose}>
-          <TileLayer
-            url='http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png'
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          {marker}
-          {polyline}
-        </Map>
+        { map }
 
         <Snackbar
           open={this.state.snackbar}
