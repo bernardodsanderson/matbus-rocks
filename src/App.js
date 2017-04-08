@@ -53,13 +53,13 @@ class App extends React.Component {
     })
     .then(function (response) {
       // console.log(response);
-      if (response.data.data.length < 1) {
+      if (response.data.data.length < 1 || response.data.data[bus_number] === undefined) {
         _this.setState({zoom: 12, location: [46.8695, -96.7901], once: false, route: '', bus: ''});
         // console.log('not working!');
         _this.openSnackbar();
         return 0;
       } else {
-        // console.log(response.data.data[bus_number].latitude, response.data.data[bus_number].longitude);
+        // console.log('working');
         _this.setState({zoom: 16, location: [response.data.data[bus_number].latitude, response.data.data[bus_number].longitude], once: true});
         _this.callAPI(_this.state.route, _this.state.bus);
       }
@@ -210,7 +210,7 @@ class App extends React.Component {
 
         <Snackbar
           open={this.state.snackbar}
-          message='No bus on this route is running right now!'
+          message='This bus is not running right now!'
           autoHideDuration={4000}
           onRequestClose={this.closeSnackbar}
           className="snackbar"
