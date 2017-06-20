@@ -54,7 +54,7 @@ class App extends React.Component {
     .then(function (response) {
       // console.log(response);
       if (response.data.data.length < 1 || response.data.data[bus_number] === undefined) {
-        _this.setState({zoom: 12, location: [46.8695, -96.7901], once: false, route: '', bus: ''});
+        _this.setState({zoom: 12, location: [46.8695, -96.7901], once: false, bus: ''});
         // console.log('not working!');
         _this.openSnackbar();
         return 0;
@@ -109,7 +109,8 @@ class App extends React.Component {
     let marker = '';
     let polyline = '';
 
-    if (this.state.route && this.state.once) {
+    // if (this.state.route && this.state.once) {
+    if (true) {
       marker = <Marker draggable={false} position={this.state.location} icon={myIcon}><Popup><span>Route: {this.state.route}</span></Popup></Marker>;
       polyline = <Polyline color='#607d8b' positions={this.state.polyline} />;
     }
