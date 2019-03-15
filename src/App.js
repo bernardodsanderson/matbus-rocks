@@ -9,7 +9,7 @@ import Snackbar from 'material-ui/Snackbar';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
-import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline08, polyline09, polyline11, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline23, polyline31, polyline32E, polyline32W, polyline33, polyline34, polyline35 } from './routes.js';
+import { polyline00, polyline01, polyline02, polyline03, polyline04, polyline05, polyline06, polyline09, polyline11, polyline13, polyline13U, polyline14, polyline15, polyline16, polyline17, polyline18, polyline31, polyline32E, polyline32W, polyline33, polyline34 } from './routes.js';
 import './index.css';
 
 // http://165.234.255.87:8080/feed/vehicle/byRoutes/14
@@ -163,7 +163,6 @@ class App extends React.Component {
           <hr/>
           <MenuItem onClick={()=>this.handleClose("05", 0, polyline05)} ><span className="bus">Route 5</span></MenuItem>
           <MenuItem onClick={()=>this.handleClose("06", 0, polyline06)} ><span className="bus">Route 6</span></MenuItem>
-          <MenuItem onClick={()=>this.handleClose("08", 0, polyline08)} ><span className="bus">Route 8</span></MenuItem>
           <MenuItem onClick={()=>this.handleClose("09", 0, polyline09)} ><span className="bus">Route 9</span></MenuItem>
           <MenuItem onClick={()=>this.handleClose("11", 0, polyline11)} ><span className="bus">Route 11</span></MenuItem>
           <hr/>
@@ -187,7 +186,6 @@ class App extends React.Component {
           <MenuItem onClick={()=>this.handleClose("18", 0, polyline18)} ><span className="bus">Route 18</span><small>Bus 1</small></MenuItem>
           <MenuItem onClick={()=>this.handleClose("18", 1, polyline18)} ><span className="bus">Route 18</span><small>Bus 2</small></MenuItem>
           <hr/>
-          <MenuItem onClick={()=>this.handleClose("23", 0, polyline23)} ><span className="bus">Route 23</span></MenuItem>
           <MenuItem onClick={()=>this.handleClose("31", 0, polyline31)} ><span className="bus">Route 31</span></MenuItem>
           <MenuItem onClick={()=>this.handleClose("32E", 0, polyline32E)} ><span className="bus">Route 32E</span></MenuItem>
           <MenuItem onClick={()=>this.handleClose("32W", 0, polyline32W)} ><span className="bus">Route 32W</span></MenuItem>
@@ -197,7 +195,6 @@ class App extends React.Component {
           <MenuItem onClick={()=>this.handleClose("33", 2, polyline33)} ><span className="bus">Route 33</span><small>Bus 3</small></MenuItem>
           <hr/>
           <MenuItem onClick={()=>this.handleClose("34", 0, polyline34)} ><span className="bus">Route 34</span></MenuItem>
-          <MenuItem onClick={()=>this.handleClose("35", 0, polyline35)} ><span className="bus">Route 35</span></MenuItem>
         </Drawer>
 
         { map }
