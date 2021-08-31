@@ -1,6 +1,4 @@
 # Matbus Rocks
-[http://matbus.rocks](http://matbus.rocks)
-
 
 > A React project for checking the location of the Matbus bus in any route
 
